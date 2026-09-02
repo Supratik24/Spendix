@@ -1,4 +1,4 @@
-# SmartSpend AI
+# Spendix 
 
 An Android-first, privacy-first personal finance tracker for India. SmartSpend turns financial SMS alerts into local, structured INR transactions.
 
