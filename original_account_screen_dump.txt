@@ -1,0 +1,254 @@
+Created At: 2026-08-31T15:06:16+05:30
+Completed At: 2026-08-31T15:06:17+05:30
+File Path: `file:///c:/Users/supra/Desktop/SmartExpense/app/src/main/java/com/smartspend/ai/ui/screens/AccountScreen.kt`
+Total Lines: 246
+Total Bytes: 9981
+Showing lines 1 to 246
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: package com.smartspend.ai.ui.screens
+2: 
+3: import androidx.compose.foundation.background
+4: import androidx.compose.foundation.clickable
+5: import androidx.compose.foundation.layout.*
+6: import androidx.compose.foundation.rememberScrollState
+7: import androidx.compose.foundation.shape.CircleShape
+8: import androidx.compose.foundation.shape.RoundedCornerShape
+9: import androidx.compose.foundation.verticalScroll
+10: import androidx.compose.material.icons.Icons
+11: import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+12: import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+13: import androidx.compose.material.icons.automirrored.rounded.Logout
+14: import androidx.compose.material.icons.rounded.DarkMode
+15: import androidx.compose.material.icons.rounded.LightMode
+16: import androidx.compose.material.icons.rounded.Person
+17: import androidx.compose.material.icons.rounded.Email
+18: import androidx.compose.material.icons.rounded.Settings
+19: import androidx.compose.material.icons.rounded.BarChart
+20: import androidx.compose.material.icons.rounded.PictureAsPdf
+21: import androidx.compose.material.icons.rounded.Info
+22: import androidx.compose.material3.*
+23: import androidx.compose.runtime.Composable
+24: import androidx.compose.ui.Alignment
+25: import androidx.compose.ui.Modifier
+26: import androidx.compose.ui.draw.clip
+27: import androidx.compose.ui.graphics.vector.ImageVector
+28: import androidx.compose.ui.text.font.FontWeight
+29: import androidx.compose.ui.unit.dp
+30: 
+31: @OptIn(ExperimentalMaterial3Api::class)
+32: @Composable
+33: fun AccountScreen(
+34:     userName: String?,
+35:     userEmail: String?,
+36:     isDarkMode: Boolean?,
+37:     onToggleTheme: () -> Unit,
+38:     onBack: () -> Unit,
+39:     onLogout: () -> Unit,
+40:     modifier: Modifier = Modifier
+41: ) {
+42:     Scaffold(
+43:         modifier = modifier.fillMaxSize(),
+44:         topBar = {
+45:             TopAppBar(
+46:                 title = { Text("Account", fontWeight = FontWeight.SemiBold) },
+47:                 navigationIcon = {
+48:                     IconButton(onClick = onBack) {
+49:                         Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
+50:                     }
+51:                 }
+52:             )
+53:         }
+54:     ) { innerPadding ->
+55:         Column(
+56:             modifier = Modifier
+57:                 .padding(innerPadding)
+58:                 .fillMaxSize()
+59:                 .verticalScroll(rememberScrollState())
+60:                 .padding(horizontal = 16.dp, vertical = 8.dp),
+61:             verticalArrangement = Arrangement.spacedBy(16.dp)
+62:         ) {
+63:             // 1. Profile Card
+64:             Card(
+65:                 modifier = Modifier.fillMaxWidth(),
+66:                 shape = RoundedCornerShape(16.dp),
+67:                 colors = CardDefaults.cardColors(
+68:                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+69:                 )
+70:             ) {
+71:                 Row(
+72:                     modifier = Modifier.padding(16.dp),
+73:                     verticalAlignment = Alignment.CenterVertically
+74:                 ) {
+75:                     Box(
+76:                         modifier = Modifier
+77:                             .size(48.dp)
+78:                             .clip(CircleShape)
+79:                             .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)),
+80:                         contentAlignment = Alignment.Center
+81:                     ) {
+82:                         Icon(
+83:                             imageVector = Icons.Rounded.Person,
+84:                             contentDescription = null,
+85:                             tint = MaterialTheme.colorScheme.primary,
+86:                             modifier = Modifier.size(32.dp)
+87:                         )
+88:                     }
+89:                     Spacer(modifier = Modifier.width(16.dp))
+90:                     Text(
+91:                         text = userName ?: "User",
+92:                         style = MaterialTheme.typography.titleLarge,
+93:                         fontWeight = FontWeight.Bold
+94:                     )
+95:                 }
+96:             }
+97: 
+98:             // 2. Contact Info Card
+99:             Card(
+100:                 modifier = Modifier.fillMaxWidth(),
+101:                 shape = RoundedCornerShape(16.dp),
+102:                 colors = CardDefaults.cardColors(
+103:                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+104:                 )
+105:             ) {
+106:                 Row(
+107:                     modifier = Modifier.padding(16.dp),
+108:                     verticalAlignment = Alignment.CenterVertically
+109:                 ) {
+110:                     Icon(
+111:                         imageVector = Icons.Rounded.Email,
+112:                         contentDescription = null,
+113:                         tint = MaterialTheme.colorScheme.onSurfaceVariant
+114:                     )
+115:                     Spacer(modifier = Modifier.width(16.dp))
+116:                     Text(
+117:                         text = userEmail ?: "No email provided",
+118:                         style = MaterialTheme.typography.bodyLarge,
+119:                         color = MaterialTheme.colorScheme.onSurface
+120:                     )
+121:                 }
+122:             }
+123: 
+124:             Spacer(modifier = Modifier.height(8.dp))
+125: 
+126:             // 3. Expense Tracking Section
+127:             Text(
+128:                 text = "Expense tracking",
+129:                 style = MaterialTheme.typography.titleSmall,
+130:                 fontWeight = FontWeight.Bold,
+131:                 modifier = Modifier.padding(start = 8.dp)
+132:             )
+133:             Card(
+134:                 modifier = Modifier.fillMaxWidth(),
+135:                 shape = RoundedCornerShape(16.dp),
+136:                 colors = CardDefaults.cardColors(
+137:                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+138:                 )
+139:             ) {
+140:                 Column {
+141:                     AccountMenuRow(
+142:                         icon = Icons.Rounded.Settings,
+143:                         iconTint = MaterialTheme.colorScheme.primary,
+144:                         text = "Preferences",
+145:                         onClick = { /* TODO */ }
+146:                     )
+147:                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+148:                     AccountMenuRow(
+149:                         icon = Icons.Rounded.BarChart,
+150:                         iconTint = MaterialTheme.colorScheme.primary,
+151:                         text = "Weekly summary",
+152:                         onClick = { /* TODO */ }
+153:                     )
+154:                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+155:                     AccountMenuRow(
+156:                         icon = Icons.Rounded.PictureAsPdf,
+157:                         iconTint = MaterialTheme.colorScheme.primary,
+158:                         text = "Export statement",
+159:                         onClick = { /* TODO */ }
+160:                     )
+161:                 }
+162:             }
+163: 
+164:             Spacer(modifier = Modifier.height(8.dp))
+165: 
+166:             // 4. General Section
+167:             Text(
+168:                 text = "General",
+169:                 style = MaterialTheme.typography.titleSmall,
+170:                 fontWeight = FontWeight.Bold,
+171:                 modifier = Modifier.padding(start = 8.dp)
+172:             )
+173:             Card(
+174:                 modifier = Modifier.fillMaxWidth(),
+175:                 shape = RoundedCornerShape(16.dp),
+176:                 colors = CardDefaults.cardColors(
+177:                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+178:                 )
+179:             ) {
+180:                 Column {
+181:                     AccountMenuRow(
+182:                         icon = if (isDarkMode == true) Icons.Rounded.LightMode else Icons.Rounded.DarkMode,
+183:                         iconTint = MaterialTheme.colorScheme.onSurface,
+184:                         text = "Theme",
+185:                         onClick = onToggleTheme
+186:                     )
+187:                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+188:                     AccountMenuRow(
+189:                         icon = Icons.AutoMirrored.Rounded.Logout,
+190:                         iconTint = MaterialTheme.colorScheme.error,
+191:                         text = "Logout",
+192:                         textColor = MaterialTheme.colorScheme.error,
+193:                         onClick = onLogout
+194:                     )
+195:                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+196:                     AccountMenuRow(
+197:                         icon = Icons.Rounded.Info,
+198:                         iconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+199:                         text = "About Spendix",
+200:                         onClick = { /* TODO */ }
+201:                     )
+202:                 }
+203:             }
+204:             
+205:             Spacer(modifier = Modifier.height(24.dp))
+206:         }
+207:     }
+208: }
+209: 
+210: @Composable
+211: fun AccountMenuRow(
+212:     icon: ImageVector,
+213:     iconTint: androidx.compose.ui.graphics.Color,
+214:     text: String,
+215:     textColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSurface,
+216:     onClick: () -> Unit
+217: ) {
+218:     Row(
+219:         modifier = Modifier
+220:             .fillMaxWidth()
+221:             .clickable(onClick = onClick)
+222:             .padding(horizontal = 16.dp, vertical = 16.dp),
+223:         verticalAlignment = Alignment.CenterVertically
+224:     ) {
+225:         Icon(
+226:             imageVector = icon,
+227:             contentDescription = null,
+228:             tint = iconTint,
+229:             modifier = Modifier.size(24.dp)
+230:         )
+231:         Spacer(modifier = Modifier.width(16.dp))
+232:         Text(
+233:             text = text,
+234:             style = MaterialTheme.typography.bodyLarge,
+235:             color = textColor,
+236:             modifier = Modifier.weight(1f)
+237:         )
+238:         Icon(
+239:             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+240:             contentDescription = null,
+241:             tint = MaterialTheme.colorScheme.onSurfaceVariant,
+242:             modifier = Modifier.size(20.dp)
+243:         )
+244:     }
+245: }
+246: 
+The above content shows the entire, complete file contents of the requested file.

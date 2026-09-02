@@ -1,0 +1,72 @@
+private fun generateAiResponse(context: android.content.Context, question: String, state: SpendUiState, savingsRate: Int, topCategory: Pair<Category, Long>?, avgDailySpend: Long): String {
+    val prefs = context.getSharedPreferences("spendix_prefs", android.content.Context.MODE_PRIVATE)
+    val userName = prefs.getString("user_name", "there")?.split(" ")?.firstOrNull() ?: "there"
+    val q = question.lowercase()
+    val topCatName = topCategory?.first?.name?.lowercase()?.replaceFirstChar { it.uppercase() } ?: "N/A"
+    val topCatAmt = topCategory?.second ?: 0L
+    val totalSpent = state.spentPaise
+    val totalEarned = state.earnedPaise
+
+    return when {
+        q.matches(Regex(".*\b(hi|hello|hey|hii|helo|sup)\b.*")) -> {
+            "Hello $userName! 👋 How can I assist you with your finances today? I can help you analyze your spending habits, create a budget plan, or give you some tax-saving tips!"
+        }
+        q.contains("habit") || q.contains("pattern") || q.contains("spending") -> {
+            val pct = if (totalEarned > 0 && topCatAmt > 0) ((topCatAmt.toFloat() / totalEarned) * 100).roundToInt() else 0
+            "Based on your recent transactions, your biggest expense is $topCatName, where you've spent Rs.${formatMoney(topCatAmt)} ($pct% of your income). You are spending about Rs.${formatMoney(avgDailySpend)} per day on average. A good step would be to try and reduce your $topCatName expenses slightly!"
+        }
+        q.contains("careful") || q.contains("vulnerabilit") || q.contains("warning") || q.contains("alert") -> {
+            if (savingsRate < 15) {
+                "Your current savings rate is $savingsRate%, which is a bit low, $userName. This means you might not have enough buffer for emergencies. Try to cut back on non-essential spending for a while to build up your savings!"
+            } else if (state.spendingByCategory.none { it.first == com.smartspend.ai.data.Category.INVESTMENT }) {
+                "You're doing a great job saving ($savingsRate%!), but you don't have any investments recorded. Keeping all your savings in a bank account means inflation will slowly eat away at it. Consider looking into basic investments like index funds or FDs!"
+            } else {
+                "You're actually doing pretty well! Your cash flow is positive, you're saving money, and you have investments. Keep up the good work and stick to your budget."
+            }
+        }
+        q.contains("budget") || q.contains("plan") || q.contains("allocate") -> {
+            if (totalEarned > 0) {
+                val needs = totalEarned * 50 / 100
+                val wants = totalEarned * 30 / 100
+                val savings = totalEarned * 20 / 100
+                """Here is a simple 50/30/20 budget plan based on your income of Rs.${formatMoney(totalEarned)}:
+
+• Needs (50%): Rs.${formatMoney(needs)}
+• Wants (30%): Rs.${formatMoney(wants)}
+• Savings (20%): Rs.${formatMoney(savings)}
+
+You've spent Rs.${formatMoney(totalSpent)} so far, so you're ${if (totalSpent <= needs + wants) "doing great" else "slightly over budget"} for this period!"""
+            } else "I need a bit more data! Once you have some verified income transactions, I can generate a personalized budget plan for you."
+        }
+        q.contains("tax") || q.contains("tips") || q.contains("saving") || q.contains("invest") -> {
+            """Here are a few easy ways to save on taxes:
+
+1. Section 80C: You can invest up to Rs. 1.5 Lakhs in things like ELSS, PPF, or EPF.
+2. Section 80D: Health insurance premiums for you and your parents are tax-deductible.
+3. NPS: You can get an extra Rs. 50,000 deduction under 80CCD(1B).
+
+Try to plan these investments early in the year!"""
+        }
+        q.contains("how are you") || q.contains("who are you") || q.contains("what can you do") -> {
+            "I am Spendix AI, your personal financial assistant! I can analyze your spending, suggest budgets, and help you keep track of your goals. What would you like to know?"
+        }
+        q.contains("joke") || q.contains("funny") -> {
+            "Why did the banker break up with his girlfriend? He lost interest! 😅 But seriously, let's look at your budget..."
+        }
+        q.contains("help") || q.contains("options") -> {
+            """I can help with a lot of things, $userName! Try asking me:
+• 'What are my spending habits?'
+• 'Give me a budget plan.'
+• 'Any warnings about my finances?'
+• 'Give me tax saving tips.'"""
+        }
+        else -> {
+            val responses = listOf(
+                "That's an interesting question, $userName! While I'm focused on your finances, I can tell you that you've saved $savingsRate% of your Rs.${formatMoney(totalEarned)} income so far. Want to see a budget plan?",
+                "I'm here to help you manage your money! Feel free to ask me for a budget plan, a spending habits review, or investment tips.",
+                "I'm still learning about that! But regarding your finances, you are currently spending about Rs.${formatMoney(avgDailySpend)} per day. Let me know if you want tips to reduce that."
+            )
+            responses.random()
+        }
+    }
+}

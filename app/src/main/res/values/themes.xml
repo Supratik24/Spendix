@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.SmartSpend" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#4065E0</item>
+        <item name="android:navigationBarColor">#F9F9FF</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#F9F9FF</item>
+    </style>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FAF9F6</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_spendix_logo_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.SmartSpend</item>
+    </style>
+</resources>
