@@ -26,6 +26,23 @@ android {
     }
     buildFeatures { compose = true; buildConfig = true }
     packaging { resources.excludes += "/META-INF/{AL2.0,LGPL2.1}" }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("../spendix_keystore.jks")
+            storePassword = "spendix123"
+            keyAlias = "spendix"
+            keyPassword = "spendix123"
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
 }
 
 dependencies {
