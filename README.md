@@ -20,3 +20,7 @@ The app asks for `READ_SMS` only to import historical messages and `RECEIVE_SMS`
 ## Open in Android Studio
 
 Open this directory as a Gradle project, allow Android Studio to install the configured Android SDK/Gradle dependencies, then run on an Android 8.0+ device. Grant SMS access through the in-app prompt to enable automatic detection.
+
+## Why Spendix is 100% Safe & Secure: 
+
+Spendix is a custom, personal finance app built entirely from scratch on my own computer. Unlike commercial apps, it has absolutely no hidden tracking, no ads, and no external cloud servers. The app is 100% offline—it processes and stores all your financial data locally inside a private database on your phone. Because it was compiled directly by me and not downloaded from the Google Play Store, Android's automated security systems flag the digital signature as 'unknown.' However, the app is completely free from malware, viruses, or data collection. Your data never leaves your device.
